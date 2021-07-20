@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WebNewsMapper">
+    
+    <resultMap type="WebNews" id="WebNewsResult">
+        <result property="titleId"    column="title_id"    />
+        <result property="title"    column="title"    />
+        <result property="indexImgPath"    column="index_img_path"    />
+        <result property="content"    column="content"    />
+        <result property="url"    column="url"    />
+        <result property="tag"    column="tag"    />
+        <result property="hot"    column="hot"    />
+        <result property="visitCount"    column="visit_count"    />
+        <result property="source"    column="source"    />
+        <result property="publish"    column="publish"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectWebNewsVo">
+        select title_id, title, index_img_path, content, url, tag, hot, visit_count, source, publish, update_time, create_time from web_news
+    </sql>
+
+    <select id="selectWebNewsList" parameterType="WebNews" resultMap="WebNewsResult">
+        <include refid="selectWebNewsVo"/>
+        <where>  
+            <if test="titleId != null  and titleId != ''"> and title_id = #{titleId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="indexImgPath != null  and indexImgPath != ''"> and index_img_path = #{indexImgPath}</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="tag != null  and tag != ''"> and tag = #{tag}</if>
+            <if test="hot != null "> and hot = #{hot}</if>
+            <if test="visitCount != null "> and visit_count = #{visitCount}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="publish != null "> and publish = #{publish}</if>
+        </where>
+    </select>
+    
+    <select id="selectWebNewsById" parameterType="String" resultMap="WebNewsResult">
+        <include refid="selectWebNewsVo"/>
+        where title_id = #{titleId}
+    </select>
+        
+    <insert id="insertWebNews" parameterType="WebNews">
+        insert into web_news
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="titleId != null">title_id,</if>
+            <if test="title != null">title,</if>
+            <if test="indexImgPath != null">index_img_path,</if>
+            <if test="content != null">content,</if>
+            <if test="url != null">url,</if>
+            <if test="tag != null">tag,</if>
+            <if test="hot != null">hot,</if>
+            <if test="visitCount != null">visit_count,</if>
+            <if test="source != null">source,</if>
+            <if test="publish != null">publish,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="titleId != null">#{titleId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="indexImgPath != null">#{indexImgPath},</if>
+            <if test="content != null">#{content},</if>
+            <if test="url != null">#{url},</if>
+            <if test="tag != null">#{tag},</if>
+            <if test="hot != null">#{hot},</if>
+            <if test="visitCount != null">#{visitCount},</if>
+            <if test="source != null">#{source},</if>
+            <if test="publish != null">#{publish},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWebNews" parameterType="WebNews">
+        update web_news
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="indexImgPath != null">index_img_path = #{indexImgPath},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="tag != null">tag = #{tag},</if>
+            <if test="hot != null">hot = #{hot},</if>
+            <if test="visitCount != null">visit_count = #{visitCount},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="publish != null">publish = #{publish},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where title_id = #{titleId}
+    </update>
+
+    <delete id="deleteWebNewsById" parameterType="String">
+        delete from web_news where title_id = #{titleId}
+    </delete>
+
+    <delete id="deleteWebNewsByIds" parameterType="String">
+        delete from web_news where title_id in 
+        <foreach item="titleId" collection="array" open="(" separator="," close=")">
+            #{titleId}
+        </foreach>
+    </delete>
+
+</mapper>

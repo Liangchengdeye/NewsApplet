@@ -1,0 +1,8 @@
+{
+  "navigationBarBackgroundColor": "#C44943",
+  "navigationBarTitleText": "数图行新闻头条",
+  "navigationBarTextStyle": "white",
+  "enablePullDownRefresh": true,
+  "backgroundTextStyle": "dark",
+  "backgroundColor": "#C44943"
+}

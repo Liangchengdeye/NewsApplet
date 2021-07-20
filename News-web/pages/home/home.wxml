@@ -1,0 +1,68 @@
+<!--pages/home/home.wxml-->
+<view class="new">
+  <!--头部导航栏开始  -->
+  <view class="nav">
+    <view class="search">
+      <image mode="widthFix" src="../../images/search.png"></image>
+      <!-- <input class="searchFor" type="text" placeholder='请输入搜索内容'></input> -->
+    </view>
+    <!--menu  -->
+    <view class="menu">
+      <!--使用scroll-view  -->
+      <scroll-view class="menu-nav" scroll-x>
+        <!-- 设置点击切换底边框 -->
+        <!--data-key 显示当前点击的索引  -->
+        <view bindtap="change" data-newMsgId="{{item.newMsgId}}" data-key="{{item.key}}" class="item {{cursor == item.key ? 'active' : '' }}" wx:for="{{navType}}" wx:key="index">{{item.name}}</view>
+      </scroll-view>
+    </view>
+    <!--menu end  -->
+    <!--添加开始  -->
+    <view class="add">
+      <view class="addImg">
+        <image mode="widthFix" src="../../images/star.png"></image>
+      </view>
+      <view class="addHome">
+        <image mode="widthFix" src="../../images/profile.png"></image>
+      </view>
+    </view>
+    <!--添加结束  -->
+    <view class="clearfix"></view>
+
+  </view>
+  <!--头部导航栏结束  -->
+  <!--内容开始  -->
+  <!--swiper 具有current-item-id属性，指向对应的幻灯片 具有切换幻灯片之后触发的事件bindchange  -->
+  <swiper class="content" style="height:{{scrollHeight}}px" current-item-id="{{cursor}}" bindchange="swiperChange" skip-hidden-item-layout="true" circular="true" duration="200">
+    <!-- 当前所在滑块的 item-id ，不能与 current 被同时指定 -->
+    <!-- swiper-item  当中有 item-id 是该 swiper-item 的标识符   -->
+    <swiper-item item-id="{{item.key}}" wx:for="{{navType}}" wx:key="index">
+      <!-- scroll-view 会发生触底事件bindscrolltolower -->
+      <scroll-view enable-back-to-top="true" scroll-y style="height:100%;bakcground:#fff" bindscrolltolower="scrollEnd" data-id="{{cursor}}">
+        <!-- 设置文章跳转 -->
+        <!-- 渲染新闻内容 -->
+        <!-- 跳转的时候进行传递当前文章的唯一标识  -->
+        <navigator url="../detail/detail?id={{value.titleId}}" class="content-new" wx:for="{{item.keep}}" wx:key="index" wx:for-item="value">
+          <view class="new-left">
+            <view class="title">{{value.title}}</view>
+            <view class="refer">{{value.source}}
+              <text class="refer" >    浏览量:{{value.visitCount}}    </text>
+               <text class="refer" >    {{value.createTime}}</text>
+            </view>
+            
+          </view>
+          <view class="new-right">
+            <image mode="aspectFill" class="new-right-Img" src="{{value.indexImgPath}}"></image>
+          </view>
+        </navigator>
+        <!-- 渲染新闻内容结束 -->
+        <!-- 设置文章跳转结束  -->
+        <!--loading  -->
+        <view>
+          <image mode="aspectFit" class="lazy" src="../../images/lazy.gif"></image>
+        </view>
+        <!--loading end  -->
+      </scroll-view>
+    </swiper-item>
+  </swiper>
+  <!--内容结束  -->
+</view>

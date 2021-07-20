@@ -1,0 +1,57 @@
+package ${packageName}.controller;
+
+import java.util.List;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.springframework.beans.factory.annotation.Autowired;
+import com.ruoyi.common.core.page.PageHelperParams;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.enums.BusinessType;
+import ${packageName}.domain.${ClassName};
+import ${packageName}.service.I${ClassName}Service;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+#if($table.crud || $table.sub)
+import com.ruoyi.common.core.page.TableDataInfo;
+#elseif($table.tree)
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.core.domain.Ztree;
+#end
+
+/**
+ * ${functionName}ApiController
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Api(value = "${ClassName}ApiController", description = "${functionName}API接口")
+@Controller
+@RequestMapping("/${moduleName}/${businessName}/api")
+public class ${ClassName}ApiController extends BaseController
+{
+
+    @Autowired
+    private I${ClassName}Service ${className}Service;
+
+    /**
+    * 查询全部 ${functionName}
+* @param ${ClassName}
+* @return
+*/
+    @PostMapping(value="/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "", notes = "\"params\":{\"pageSize\":10,\"pageNum\":1,\"isAsc\":\"desc\",\"orderByColumn\":\"hot\"}")
+    public TableDataInfo list(@RequestBody ${ClassName} ${className})
+    {
+        PageHelperParams pageHelperParams = new PageHelperParams();
+        pageHelperParams.pageParams(${className});
+        List<${ClassName}> list = ${className}Service.select${ClassName}List(${className});
+        return getDataTable(list);
+    }
+}
